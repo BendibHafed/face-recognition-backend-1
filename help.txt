@@ -1,0 +1,5 @@
+route1: / --> res  sends "This is working...".
+route2: /signin --> POST ("username", "password") -> success/fail.
+route3: /register --> POST (data , database) -> new user object registered.
+route4: /profile/:userId --> Get (id) -> user found/not found 
+route5: /image --> PUT (data) --> Updated user image and update count.

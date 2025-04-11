@@ -4,7 +4,7 @@
   "description": "FACE RECOGNITION - API ---------------------",
   "main": "script1.js",
   "scripts": {
-    "start": "nodemon"
+    "start": "nodemon server.js"
   },
   "repository": {
     "type": "git",
