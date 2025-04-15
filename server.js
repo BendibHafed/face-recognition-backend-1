@@ -6,6 +6,7 @@ const register = require('./controllers/register');
 const signin = require('./controllers/signin');
 const profile = require('./controllers/profile');
 const image = require('./controllers/image');
+require('dotenv').config();
 
 const app = express();
 
@@ -15,7 +16,7 @@ const pg_db = knex({
         host: '127.0.0.1',
         port: 5432,
         user: 'postgres',
-        password: '1981',
+        password: process.env.DB_PASSWORD,
         database: 'smart-brain'
     }
 });

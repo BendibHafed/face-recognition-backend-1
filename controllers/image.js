@@ -7,11 +7,11 @@ const handleImage = (req, res, pg_db) => {
     }
 
     // Clarifai API setup
-    const PAT = '252ed517949f435fa5d36d42fe0db88f'; // Still better to move this to environment variables
+    const PAT = process.env.CLARIFAI_PAT; // Still better to move this to environment variables
     const USER_ID = 's07ct5ryuzbx';
     const APP_ID = 'face-recognition-app';
     const MODEL_ID = 'face-detection';
-    const MODEL_VERSION_ID = '6dc7e46bc9124c5c8824be4822abe105';
+    // const MODEL_VERSION_ID = '6dc7e46bc9124c5c8824be4822abe105';
 
     const raw = JSON.stringify({
         "user_app_id": {
