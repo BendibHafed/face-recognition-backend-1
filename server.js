@@ -1,7 +1,7 @@
 const knex = require('knex');
 require('dotenv').config();
 const { app, setupRoutes } = require('./app');
-
+const { createTables } = require('./database');
 const pg_db = knex({
     client: 'pg',
     connection: {
@@ -18,6 +18,7 @@ const startServer = async() => {
     try {
         // Check connection
         await pg_db.raw('SELECT 1');
+        await createTables(pg_db);
         console.log('Database connected sucessfully');
         // Setup routes and Inject them with pg_db
         setupRoutes(app, pg_db);
