@@ -1,41 +1,37 @@
-const express = require('express');
-const bcrypt = require('bcryptjs');
-const cors = require('cors');
 const knex = require('knex');
-const register = require('./controllers/register');
-const signin = require('./controllers/signin');
-const profile = require('./controllers/profile');
-const image = require('./controllers/image');
 require('dotenv').config();
-
-const app = express();
+const { app, setupRoutes } = require('./app');
 
 const pg_db = knex({
     client: 'pg',
     connection: {
-        host: '127.0.0.1',
-        port: 5432,
-        user: 'postgres',
+        host: process.env.DB_HOST || '127.0.0.1',
+        port: process.env.DB_PORT || 5432,
+        user: process.env.DB_USER || 'postgres',
         password: process.env.DB_PASSWORD,
-        database: 'smart-brain'
+        database: process.env.DB_NAME || 'smart-brain'
     }
 });
 
+const startServer = async() => {
 
-// Middleware
-app.use(express.json());
-app.use(cors());
+    try {
+        // Check connection
+        await pg_db.raw('SELECT 1');
+        console.log('Database connected sucessfully');
+        // Setup routes and Inject them with pg_db
+        setupRoutes(app, pg_db);
+        // Start server
+        const PORT = process.env.PORT || 3000;
+        app.listen(PORT, () => {
+            console.log(`Server is running on port ${PORT}`)
+        });
+    
+    } catch(err) {
+        console.error('Failed to start the server: ', err.message);
+        process.exit(1); // Exit with failure code
+    }
+};
 
-// Routes && Endpoints
-app.post('/signin', (req, res) => {signin.handleSignin(req, res, pg_db, bcrypt)});
-
-app.post('/register', (req, res) => {register.handleRegister(req, res, pg_db, bcrypt)});
-
-app.get('/profile/:id', (req, res) => {profile.handleProfile(req, res, pg_db)});
-
-app.post('/image', (req, res) => {image.handleImage(req, res, pg_db)});
-
-// ----------------------------------- Server Runtime -------------------
-app.listen(3000, () => {
-    console.log('Application is running on port 3000');
-})
+// ----------------------------------- Start Server -------------------
+startServer();
