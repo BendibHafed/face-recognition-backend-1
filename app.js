@@ -11,8 +11,19 @@ const app = express();
 // Middleware
 app.use(helmet());
 app.use(express.json());
-app.use(cors({
+
+/* app.use(cors({
     origin: process.env.FRONTEND_URL || 'http://localhost:5173' // frontend port
+})); */
+
+app.use(cors({
+  origin: [
+    'https://bendibhafed.github.io',
+    'http://localhost:5173'
+  ],
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true
 }));
 
 // Routes && Endpoints
