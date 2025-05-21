@@ -24,6 +24,7 @@
   },
   "homepage": "https://github.com/BendibHafed/face-recognition-api#readme",
   "dependencies": {
+    "@types/node-fetch": "^2.6.12",
     "bcryptjs": "^3.0.2",
     "clarifai": "^2.9.1",
     "cors": "^2.8.5",
@@ -31,8 +32,7 @@
     "express": "^5.1.0",
     "helmet": "^8.1.0",
     "knex": "^3.1.0",
-    "pg": "^8.14.1",
-    "node-fetch": "11.2.0"
+    "pg": "^8.14.1"
   },
   "devDependencies": {
     "@types/jest": "^29.5.12",
