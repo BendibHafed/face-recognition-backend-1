@@ -1,7 +1,7 @@
 {
-  "name": "face-recognition-api",
+  "name": "face-recognition-backend-1",
   "version": "1.0.0",
-  "description": "FACE RECOGNITION - API ---------------------",
+  "description": "Face Recognition backend",
   "main": "script1.js",
   "scripts": {
     "start": "node server.js",
@@ -13,16 +13,16 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/BendibHafed/face-recognition-api.git"
+    "url": "git+https://github.com/BendibHafed/face-recognition-backend-1.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "type": "commonjs",
   "bugs": {
-    "url": "https://github.com/BendibHafed/face-recognition-api/issues"
+    "url": "https://github.com/BendibHafed/face-recognition-backend-1/issues"
   },
-  "homepage": "https://github.com/BendibHafed/face-recognition-api#readme",
+  "homepage": "https://github.com/BendibHafed/face-recognition-backend-1#readme",
   "dependencies": {
     "@types/node-fetch": "^2.6.12",
     "bcryptjs": "^3.0.2",
