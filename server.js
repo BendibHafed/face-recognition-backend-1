@@ -32,7 +32,7 @@ const startServer = async() => {
         // Setup routes and Inject them with pg_db
         setupRoutes(app, pg_db);
         // Start server
-        const PORT = process.env.PORT || 10000;
+        const PORT = process.env.PORT || 3000;
         app.listen(PORT, () => {
             console.log(`Server is running on port ${PORT}`)
         });

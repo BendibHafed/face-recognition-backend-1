@@ -1,5 +1,3 @@
-const fetch = require('node-fetch');
-
 const handleImage = (req, res, pg_db) => {
     const { id, imageUrl } = req.body;
     
@@ -22,7 +20,8 @@ const handleImage = (req, res, pg_db) => {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
-        'Authorization': `Key ${PAT}`
+        'Authorization': `Key ${PAT}`,
+        'Content-Type': 'application/json'
       },
       body: JSON.stringify({
         user_app_id: { user_id: USER_ID, app_id: APP_ID },
