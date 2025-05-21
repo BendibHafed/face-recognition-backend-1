@@ -18,7 +18,7 @@ app.use(express.json());
 
 app.use(cors({
   origin: [
-    'https://bendibhafed.github.io',
+    'https://bendibhafed.github.io/face-recognition-frontend-1/',
     'http://localhost:5173'
   ],
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
