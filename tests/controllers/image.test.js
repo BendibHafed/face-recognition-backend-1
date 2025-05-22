@@ -3,10 +3,10 @@ const { app, setupRoutes } = require('../../app');
 const knex = require('knex');
 const bcrypt = require('bcryptjs');
 const { createTables } = require('../../database');
-const fetch = require('node-fetch');
 
-jest.mock('node-fetch');
 
+jest.mock('node-fetch', () => jest.fn()); // For compatibility
+global.fetch = jest.fn(); // Native fetch mock
 describe('POST /image', () => {
   let pg_db;
   let testUserId;
@@ -65,7 +65,8 @@ describe('POST /image', () => {
 
   beforeEach(() => {
     fetch.mockClear();
-    jest.restoreAllMocks();
+    //jest.restoreAllMocks();
+    jest.clearAllMocks();
   });
 
   describe('Input Validation', () => {
