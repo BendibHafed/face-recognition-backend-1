@@ -56,8 +56,8 @@ jobs:
             sleep 1
           done
 
-      - name: Run tests (Stub - update later)
-        run: echo "No tests defined yet"
+      - name: Run tests
+        run: npm test
 
       - name: Start server (check for errors)
         run: |
