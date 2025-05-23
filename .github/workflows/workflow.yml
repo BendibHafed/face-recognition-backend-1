@@ -59,8 +59,8 @@ jobs:
       - name: Run tests
         run: npm test
 
-      - name: Start server (check for errors)
+      - name: Start server
         run: |
-          node server.js &
+          npm start
           sleep 5
           curl -f http://localhost:3000 || (echo "Server failed to start" && exit 1)
