@@ -1,66 +1,62 @@
-name: Backend CI Pipeline
+name: Node.js CI
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
-    branches: [ main ]
+    branches: [main]
 
 jobs:
-  build:
+  build-and-test:
     runs-on: ubuntu-latest
+    env:
+      NODE_ENV: test
+      DB_HOST: 127.0.0.1
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+      DB_NAME: smart_brain_test
+      DB_PORT: 5432
+      PORT: 3000
+      CLARIFAI_PAT: dummy_key_for_test
 
     services:
       postgres:
-        image: postgres:13
+        image: postgres:14
         env:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
-          POSTGRES_DB: smart-brain
+          POSTGRES_DB: smart_brain_test
         ports:
           - 5432:5432
         options: >-
-          --health-cmd="pg_isready"
-          --health-interval=10s
-          --health-timeout=5s
-          --health-retries=5
-
-    env:
-      DB_HOST: localhost
-      DB_USER: postgres
-      DB_PASSWORD: postgres
-      DB_NAME: smart-brain
-      DB_PORT: 5432
-      NODE_ENV: test
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Set up Node.js
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 22
+          node-version: 20
 
       - name: Install dependencies
         run: npm install
 
-      - name: Run Linter (optional, if you have eslint)
+      - name: Wait for Postgres to be ready
         run: |
-          npm run lint || echo "Lint failed but continuing"
-
-      - name: Wait for Postgres
-        run: |
-          until pg_isready -h localhost -p 5432; do
-            echo "Waiting for Postgres..."
+          echo "Waiting for PostgreSQL..."
+          until pg_isready -h 127.0.0.1 -p 5432 -U postgres; do
             sleep 1
           done
+        env:
+          PGPASSWORD: postgres
+
+      - name: Run DB migrations or setup
+        run: node -e "require('./database').createTables(require('knex')({ client: 'pg', connection: { host: process.env.DB_HOST, user: process.env.DB_USER, password: process.env.DB_PASSWORD, database: process.env.DB_NAME, port: process.env.DB_PORT } }))"
 
       - name: Run tests
-        run: echo "Testing ignored"
-
-      - name: Start server
-        run: |
-          npm start
-          sleep 5
-          curl -f http://localhost:3000 || (echo "Server failed to start" && exit 1)
+        run: npm test
